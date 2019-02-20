@@ -1,0 +1,92 @@
+struct single_node{
+    
+    long long total;
+    long long prefix;
+    long long suffix;
+    
+    
+};
+
+
+long long a[300000+50];
+long long d[300000+50];
+long long c[300000+50];
+long long lazy[1200000+50];
+
+long long maxseg[1200000+50];
+long long totseg[1200000+50];
+long long maxpref[1200000+50];
+long long maxsuff[1200000+50];
+
+void build(int node,int l,int r){
+    if(l==r){
+        maxseg[node]=a[l];
+        maxpref[node]=a[l];
+        maxsuff[node]=a[l];
+        totseg[node]=a[l];
+        return;
+    }
+    int mid=(l+r)/2;
+    
+    build(2*node+1,l,mid);
+    build(2*node+2,mid+1,r);
+    totseg[node]=totseg[2*node+1]+totseg[2*node+2];
+    maxseg[node]=max(maxsuff[2*node+1]+maxpref[2*node+2],max(maxseg[2*node+1],maxseg[2*node+2]));
+    maxpref[node]=max(maxpref[2*node+1],totseg[2*node+1]+maxpref[2*node+2]);
+    maxsuff[node]=max(maxsuff[2*node+2],totseg[2*node+2]+maxsuff[2*node+1]);
+    // cout<<l<<" : "<<r<<" :: "<<maxseg[node]<<"\n";
+    return;
+}
+
+single_node query(int node,int l,int r,int ql,int qr){
+    
+    if(l==r){
+        if(ql<=l&&qr>=r){
+            // cout<<maxseg[node]<<"\n";
+            single_node bc;
+            bc.total=totseg[node];
+            bc.prefix=maxpref[node];
+            bc.suffix=maxsuff[node];
+            return bc;
+        }
+        else{
+            single_node bc;
+            bc.total=0;
+            bc.prefix=0;
+            bc.suffix=0;
+            // return LONG_MIN;
+            return bc;
+        }
+    }
+    // int mid=(l+r)/2;
+    
+    if(ql<=l&&qr>=r){
+        single_node bc;
+        bc.total=totseg[node];
+        bc.prefix=maxpref[node];
+        bc.suffix=maxsuff[node];
+        return bc;
+    }
+    else if(ql>r||qr<l){
+        single_node bc;
+        bc.total=0;
+        bc.prefix=0;
+        bc.suffix=0;
+        // return LONG_MIN;
+        return bc;
+    }
+    
+    
+    int mid=(l+r)/2;
+    
+    single_node le=query(2*node+1,l,mid,ql,qr);
+    single_node ri=query(2*node+2,mid+1,r,ql,qr);
+    single_node res;
+    res.total=le.total+ri.total;
+    res.prefix=max(le.prefix,le.total+ri.prefix);
+    res.suffix=max(ri.suffix,ri.total+le.suffix);
+    // cout<<l<<"  :  "<<r<<"\n";
+    // cout<<"( "<<le<<" :: "<<ri<<" )\n";
+    return res;
+    
+}
