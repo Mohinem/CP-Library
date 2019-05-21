@@ -1,0 +1,127 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+int n;
+int a[500000+50];
+
+int seg[2000000+50];
+
+void build(int node,int l,int r){
+    if(l==r){
+        
+        // cout<<node<<" : "<<a[l]<<"\n";
+        seg[node]=a[l];
+        return;
+    }
+    
+    int mid=(l+r)/2;
+    build(2*node+1,l,mid);
+    build(2*node+2,mid+1,r);
+    // cout<<node<<" ::: "<<__gcd(seg[2*node+1],seg[2*node+2])<<"\n";
+    seg[node]=__gcd(seg[2*node+1],seg[2*node+2]);
+}
+
+int query(int node,int l,int r,int ql,int qr){
+    
+    // cout<<"l = "<<l<<" , r = "<<r<<" , ql= "<<ql<<" , qr = "<<qr<<"\n";
+    if(l==r){
+        if(ql<=l&&qr>=r){
+            // cout<<"1st return value = "<<seg[node]<<"\n";
+            // cout<<"When "<<"l = "<<l<<" , r = "<<r<<" , ql= "<<ql<<" , qr = "<<qr<<"\n";
+            return seg[node];
+        }
+        else{
+            return -1;
+        }
+    }
+    
+    //full overlap
+    if(ql<=l&&qr>=r){
+        // cout<<"2nd return value = "<<seg[node]<<"\n";
+        // cout<<"When "<<"l = "<<l<<" , r = "<<r<<" , ql= "<<ql<<" , qr = "<<qr<<"\n";
+        return  seg[node];
+    }
+    else if(qr<l||ql>r){
+        // cout<<"ni/gga\n";
+        return -1;
+    }
+    
+    int mid=(l+r)/2;
+    int le=query(2*node+1,l,mid,ql,qr);
+    int ri=query(2*node+2,mid+1,r,ql,qr);
+    if(le==-1&&ri==-1){
+        return -1;
+    }
+    else if(le==-1){
+        // cout<<"3rd return value = "<<seg[2*node+2]<<"\n";
+        // cout<<"When "<<"l = "<<l<<" , r = "<<r<<" , ql= "<<ql<<" , qr = "<<qr<<"\n";
+        return ri;
+    }
+    else if(ri==-1){
+        // cout<<"4th return value = "<<seg[2*node+1]<<"\n";
+        // cout<<"When "<<"l = "<<l<<" , r = "<<r<<" , ql= "<<ql<<" , qr = "<<qr<<"\n";
+        return le;
+    }
+    
+    // cout<<"5th return value = "<<__gcd(le,ri)<<"\n";
+    // cout<<"When "<<"l = "<<l<<" , r = "<<r<<" , ql= "<<ql<<" , qr = "<<qr<<"\n";
+    return __gcd(le,ri);
+}
+
+
+void update(int node,int l,int r,int index,int val){
+    
+    if(l==r){
+        if(l==index){
+            // cout<<node<<" , "<<val<<"\n";
+            seg[node]=val;
+            return;
+        }
+        else{
+            // return -1;
+            return;
+        }
+    }
+    
+    
+    
+    int mid=(l+r)/2;
+    if(index<=mid){
+        update(2*node+1,l,mid,index,val);
+    }
+    else{
+        update(2*node+2,mid+1,r,index,val);
+    }
+    
+    
+    // cout<<node<<" ,,,, "<<__gcd(seg[2*node+1],seg[2*node+2])<<"\n";
+    seg[node]=__gcd(seg[2*node+1],seg[2*node+2]);
+}
+
+
+bool possible(int l,int r,int x){
+    
+    if(l==r){
+        return true;
+    }
+    
+    int mid=(l+r)/2;
+    int le=query(0,0,n-1,l,mid);
+    int ri=query(0,0,n-1,mid+1,r);
+    // cout<<le<<" : "<<ri<<"\n";
+    if(__gcd(le,x)==x&&__gcd(ri,x)==x){
+        // cout<<"nigga1\n";
+        return true;
+    }
+    else if(__gcd(le,x)==x){
+        // cout<<"nigga2\n";
+        return possible(mid+1,r,x);
+    }
+    else if(__gcd(ri,x)==x){
+        // cout<<"nigga3\n";
+        return possible(l,mid,x);
+    }
+    
+    return false;
+}
