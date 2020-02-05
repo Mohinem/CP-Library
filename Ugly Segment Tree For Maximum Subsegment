@@ -1,6 +1,14 @@
+//This snippet of code can be used to do maximum subarray sum query, logn time per query
+
+//Code doesn't handle negative maximum value yourself.
+//So in case the output of this snippet is 0, find the max value in the range using segtree or maybe sparse table
+
+
+
 struct single_node{
     
     long long total;
+    long long maxsubseg;
     long long prefix;
     long long suffix;
     
@@ -47,6 +55,7 @@ single_node query(int node,int l,int r,int ql,int qr){
             bc.total=totseg[node];
             bc.prefix=maxpref[node];
             bc.suffix=maxsuff[node];
+            bc.maxsubseg=maxseg[node];
             return bc;
         }
         else{
@@ -54,6 +63,7 @@ single_node query(int node,int l,int r,int ql,int qr){
             bc.total=0;
             bc.prefix=0;
             bc.suffix=0;
+            bc.maxsubseg=0;
             // return LONG_MIN;
             return bc;
         }
@@ -65,6 +75,7 @@ single_node query(int node,int l,int r,int ql,int qr){
         bc.total=totseg[node];
         bc.prefix=maxpref[node];
         bc.suffix=maxsuff[node];
+        bc.maxsubseg=maxseg[node];
         return bc;
     }
     else if(ql>r||qr<l){
@@ -72,6 +83,7 @@ single_node query(int node,int l,int r,int ql,int qr){
         bc.total=0;
         bc.prefix=0;
         bc.suffix=0;
+        bc.maxsubseg=LLONG_MIN;
         // return LONG_MIN;
         return bc;
     }
@@ -85,6 +97,7 @@ single_node query(int node,int l,int r,int ql,int qr){
     res.total=le.total+ri.total;
     res.prefix=max(le.prefix,le.total+ri.prefix);
     res.suffix=max(ri.suffix,ri.total+le.suffix);
+    res.maxsubseg=max(le.maxsubseg,max(ri.maxsubseg,le.suffix+ri.prefix));
     // cout<<l<<"  :  "<<r<<"\n";
     // cout<<"( "<<le<<" :: "<<ri<<" )\n";
     return res;
