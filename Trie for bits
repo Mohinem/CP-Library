@@ -1,0 +1,96 @@
+typedef struct node{
+    
+    node *ptr[2];
+    
+};
+ 
+ 
+node *root;
+bool nll=false;
+ 
+void insert(node *curnode,int value,int bit){
+    
+    if(bit==-1){
+        return;
+    }
+    
+    int cur=0;
+    
+    if(value&(1<<bit)){
+        cur=1;
+    }
+    
+    if(curnode->ptr[cur]==NULL){
+        
+        curnode->ptr[cur]=new node;
+        curnode->ptr[cur]->ptr[0]=NULL;
+        curnode->ptr[cur]->ptr[1]=NULL;
+    }
+    
+    insert(curnode->ptr[cur],value,bit-1);
+    
+}
+ 
+ //while calling remove method, pass an extra parameter as bool and set it to false 
+void rem(node *curnode,int value,int bit,bool& nulled){
+    // cout<<value<<" -> "<<bit<<"\n";
+    if(bit==-1){
+        delete curnode;
+        
+        curnode=NULL;
+        nulled=true;
+        // if(curnode==NULL){
+        //     cout<<"Current node is null\n";
+        // }
+        return;
+    }
+    
+    int cur=0;
+    if(value&(1<<bit)){
+        cur=1;
+    }
+    
+    if(curnode->ptr[cur]!=NULL){
+        rem(curnode->ptr[cur],value,bit-1,nulled);
+        
+        // curnode->ptr[cur]=NULL;
+    }
+    
+    // cout<<(curnode->ptr[cur]==NULL)<<" :: "<<(curnode->ptr[1-cur]==NULL)<<":::\n";
+    
+    if(nulled==true){
+        curnode->ptr[cur]=NULL;
+    }
+    
+    if(curnode->ptr[cur]==NULL&&curnode->ptr[1-cur]==NULL){
+        
+        delete curnode;
+        curnode=NULL;
+        nulled=true;
+    }
+    else{
+        nulled=false;
+    }
+    
+}
+ 
+long long maxxor(node *curnode, int value,int bit){
+    
+    if(bit==-1){
+        return 0;
+    }
+    
+    int cur=1;
+    if(value&(1<<bit)){
+        cur=0;
+    }
+    
+    long long res=0;
+    
+    if(curnode->ptr[cur]!=NULL){
+        return (1<<bit)+maxxor(curnode->ptr[cur],value,bit-1);
+    }
+    else{
+        return maxxor(curnode->ptr[1-cur],value,bit-1);
+    }
+}
