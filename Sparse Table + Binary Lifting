@@ -1,0 +1,96 @@
+//Don't declare variable n locally. Form the tree first, and then start by calling preprocess function and passing the root.
+//There's a dist between two nodes function already declared in the code snippet.
+
+
+int n;
+vector <int> adj[100000+50];
+int sparse[30][100000+50];
+int depth[100000+50];
+int parent[100000+50];
+
+void preprocess(int root){
+    bool vis[100000+50];
+    for(int i=1;i<=n;i++){
+        vis[i]=false;
+    }
+    
+    vis[root]=true;
+    depth[root]=0;
+    stack <int> q;
+    q.push(root);
+    parent[root]=-1;
+    while(q.empty()==0){
+        bool ischild=true;
+        int topp=q.top();
+        q.pop();
+        for(int i=0;i<(int)adj[topp].size();i++){
+            int next=adj[topp][i];
+            if(vis[next]==false){
+                ischild=false;
+                parent[next]=topp;
+                vis[next]=true;
+                depth[next]=depth[topp]+1;
+                q.push(next);
+            }
+        }
+       
+    }
+    
+    for(int i=1;i<=n;i++){
+        if(parent[i]==-1){
+            sparse[0][i]=-1;
+        }
+        else{
+            sparse[0][i]=parent[i];
+        }
+    }
+    
+    for(int i=1;i<27;i++){
+        for(int j=1;j<=n;j++){
+            if(sparse[i-1][j]==-1){
+                sparse[i][j]=-1;
+            }
+            else{
+                sparse[i][j]=sparse[i-1][sparse[i-1][j]];
+            }
+        }
+    }
+    
+    // for(int j=0;j<=20;j++){
+    //     for(int i=1;i<=n;i++){
+    //         cout<<sparse[j][i]<<" ";
+    //     }
+    //     cout<<"\n";
+    // }
+}
+ 
+int find_lca(int x,int y){
+    if(depth[x]<depth[y]){
+        swap(x,y);
+    }
+    int diff=depth[x]-depth[y];
+    
+    for(int i=0;i<27;i++){
+        if(((diff>>i)&1)!=0){
+            x=sparse[i][x];
+        }
+    }
+    
+    if(x==y){
+        return x;
+    }
+    
+    for(int i=26;i>=0;i--){
+        if(sparse[i][x]!=sparse[i][y]){
+            // cout<<i<<" <<< \n";
+            x=sparse[i][x];
+            y=sparse[i][y];
+        }
+    }
+    // cout<<sparse[0][x]<<"dsfsfjl\n";
+    return sparse[0][x];
+}
+
+int dist(int x,int y){
+    return depth[x]+depth[y]-2*depth[find_lca(x,y)];
+}
