@@ -1,0 +1,98 @@
+long long a[100000+50];
+
+long long seg[400000+50];
+
+long long lazy[400000+50];
+
+void build(int node,int l,int r){
+    if(l==r){
+        
+        // cout<<node<<" : "<<a[l]<<"\n";
+        seg[node]=a[l];
+        return;
+    }
+    
+    int mid=(l+r)/2;
+    build(2*node+1,l,mid);
+    build(2*node+2,mid+1,r);
+    // cout<<node<<" ::: "<<__gcd(seg[2*node+1],seg[2*node+2])<<"\n";
+    seg[node]=seg[2*node+1]+seg[2*node+2];
+}
+
+long long query(int node,int l,int r,int ql,int qr){
+    
+    if(lazy[node]){
+        seg[node]+=lazy[node]*(r-l+1LL);
+        // cout<<node<<" : "<<lazy[node]<<" : ( "<<l<<" , "<<r<<" )\n";
+        if(l!=r){
+            lazy[2*node+1]+=lazy[node];
+            lazy[2*node+2]+=lazy[node];
+        }
+        lazy[node]=0;
+    }
+    // cout<<"l = "<<l<<" , r = "<<r<<" , ql= "<<ql<<" , qr = "<<qr<<"\n";
+    if(l==r){
+        if(ql<=l&&qr>=r){
+            // cout<<"1st return value = "<<seg[node]<<"\n";
+            // cout<<"When "<<"l = "<<l<<" , r = "<<r<<" , ql= "<<ql<<" , qr = "<<qr<<"\n";
+            return seg[node];
+        }
+        else{
+            return 0;
+        }
+    }
+    
+    //full overlap
+    if(ql<=l&&qr>=r){
+        // cout<<"2nd return value = "<<seg[node]<<"\n";
+        // cout<<"When "<<"l = "<<l<<" , r = "<<r<<" , ql= "<<ql<<" , qr = "<<qr<<"\n";
+        return  seg[node];
+    }
+    else if(qr<l||ql>r){
+        // cout<<"ni/gga\n";
+        return 0;
+    }
+    
+    int mid=(l+r)/2;
+    int le=query(2*node+1,l,mid,ql,qr);
+    int ri=query(2*node+2,mid+1,r,ql,qr);
+    if(le==-1&&ri==-1){
+        return 0;
+    }
+    return le+ri;
+}
+
+
+void update(int node,int l,int r,int ql,int qr,long long val){
+    
+    if(lazy[node]){
+        seg[node]+=lazy[node]*(r-l+1LL);
+        if(l!=r){
+            lazy[2*node+1]+=lazy[node];
+            lazy[2*node+2]+=lazy[node];
+        }
+        lazy[node]=0;
+    }    
+    
+    if(l>r||l>qr||r<ql){
+        return;//if no overlap
+    }
+    
+    //full overlap
+    if(ql<=l&&qr>=r){
+        seg[node]+=val*(r-l+1LL);
+        if(l!=r){
+            lazy[2*node+1]+=val;
+            lazy[2*node+2]+=val;    
+        }
+        
+    }
+    else{
+        int mid=(l+r)/2;
+        update(2*node+1,l,mid,ql,qr,val);
+        update(2*node+2,mid+1,r,ql,qr,val);
+        seg[node]=seg[2*node+1]+seg[2*node+2];
+    }
+    // cout<<node<<" ,,,, "<<__gcd(seg[2*node+1],seg[2*node+2])<<"\n";
+    
+}
