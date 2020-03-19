@@ -12,6 +12,7 @@ int main(){
 /*
 
 Mistakes to take care of-
+
 1. For string s, s+=a is similar to appending to s. s = s + a takes O|s| + O|a| time. 
 Relevant problem where I made mistake - https://codeforces.com/contest/1326/problem/D2
 
