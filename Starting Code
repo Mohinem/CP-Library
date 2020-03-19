@@ -9,3 +9,14 @@ int main(){
     
     return 0;
 }
+/*
+
+Mistakes to take care of-
+1. For string s, s+=a is similar to appending to s. s = s + a takes O|s| + O|a| time. 
+Relevant problem where I made mistake - https://codeforces.com/contest/1326/problem/D2
+
+2. Try using constant value of N to declare arrays, etc. Else you might get hacked / FST.
+Relevant problem where I made a mistake - https://codeforces.com/contest/1307/problem/D
+
+
+*/
