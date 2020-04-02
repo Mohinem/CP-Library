@@ -19,6 +19,6 @@ Relevant problem where I made mistake - https://codeforces.com/contest/1326/prob
 2. Try using constant value of N to declare arrays, etc. Else you might get hacked / FST.
 Relevant problem where I made a mistake - https://codeforces.com/contest/1307/problem/D
 
-3. While exponentiation, divide the power by mod-1 of phi(mod) for large value, because the exponent will repeat according to Fermat's Little Theorem / Euler's Theorem.
+3. While exponentiation, avoid modding the exponent. Or mod with mod-1.
 Relevant problem where I made a mistake - https://codeforces.com/contest/1332/problem/E
 */
