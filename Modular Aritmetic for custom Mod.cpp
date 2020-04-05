@@ -1,3 +1,5 @@
+//comment the line below, if you don't wanna use it in contests
+//no division code, as yet
 long long mod=998244353;
 
 long long add(long long x,long long y,long long mod){
