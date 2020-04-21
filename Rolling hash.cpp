@@ -4,7 +4,9 @@
 const int HASH_SIZE=2;
 const long long BASE=27;
 
-long long mods[4]={1000000007,900000001553,998244353,1000000007};
+long long mods[4]={1000000007,998244353,900000001553,1000000007};
+
+long long bases[4]={27,40,55,110};
 
 typedef struct rollhash{
     long long hashval[HASH_SIZE];
