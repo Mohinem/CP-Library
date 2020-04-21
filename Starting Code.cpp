@@ -3,11 +3,10 @@ using namespace std;
 
 const int N=100000+50;
 
-int main(){
+signed main(){
     ios::sync_with_stdio(false);
     
     
-    return 0;
 }
 /*
 
