@@ -18,6 +18,9 @@ typedef struct rollhash{
 };
 
 bool operator < (rollhash le,rollhash ri){
+    if(le.hashval[0]==ri.hashval[0]){
+        return le.hashval[1]<ri.hashval[1];
+    }
     return le.hashval[0]<ri.hashval[0];
 }
 
