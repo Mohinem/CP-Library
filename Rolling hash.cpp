@@ -1,4 +1,4 @@
-/* A small rolling hash snippet. Work is in progress. Also, I haven't had a successful verdict with the snippet yet, so you might want to ignore my snippet.*/
+/* A small rolling hash snippet. Work is in progress.*/
 
 
 const int HASH_SIZE=2;
