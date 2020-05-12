@@ -1,5 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
+#define int long long
 
 const int N=100000+50;
 
@@ -20,4 +21,8 @@ Relevant problem where I made a mistake - https://codeforces.com/contest/1307/pr
 
 3. While exponentiation, avoid modding the exponent. Or mod with mod-1.
 Relevant problem where I made a mistake - https://codeforces.com/contest/1332/problem/E
+
+4. modulo operator (%) in c++ returns the sign of the divisor.
+Eg. (-1%8) = -1
+Relevant problem where I made a mistake - https://codeforces.com/contest/1345/submission/79809463
 */
