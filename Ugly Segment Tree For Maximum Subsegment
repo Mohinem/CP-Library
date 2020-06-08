@@ -17,8 +17,6 @@ struct single_node{
 
 
 long long a[300000+50];
-long long d[300000+50];
-long long c[300000+50];
 long long lazy[1200000+50];
 
 long long maxseg[1200000+50];
