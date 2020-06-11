@@ -25,4 +25,11 @@ Relevant problem where I made a mistake - https://codeforces.com/contest/1332/pr
 4. modulo operator (%) in c++ returns the sign of the divisor.
 Eg. (-1%8) = -1
 Relevant problem where I made a mistake - https://codeforces.com/contest/1345/submission/79809463
+
+5. Strategies when getting stuck-
+a) Check for logic
+b) WRITE EXAMPLES even if it is tedious
+c) Rethink
+d) Make a wise decision, about solving current one or going to next one
+e) GOOGLE stuff, if its some math problem or stuff
 */
