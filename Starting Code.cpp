@@ -26,7 +26,11 @@ Relevant problem where I made a mistake - https://codeforces.com/contest/1332/pr
 Eg. (-1%8) = -1
 Relevant problem where I made a mistake - https://codeforces.com/contest/1345/submission/79809463
 
-5. Strategies when getting stuck-
+5. a*k=b*k (mod m) does not necessarily mean a=b (mod m)
+
+Relevant problem where I made a mistake - https://codeforces.com/contest/1389/problem/E
+
+6. Strategies when getting stuck-
 a) Check for logic
 b) WRITE EXAMPLES even if it is tedious
 c) Rethink
