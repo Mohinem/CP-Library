@@ -1,31 +1,67 @@
-int sizze[N];
-int par[N];
+#include <bits/stdc++.h>
+using namespace std;
 
-int root(int x){
+struct DSU{
 
-    while(par[x]!=x){
-    
-        par[x]=par[par[x]];
-        x=par[x];
-    }
-    return x;
-}
+    std::vector <int> size;
+    std::vector <int> parent;
 
-void uni(int x,int y){
+    DSU(int n){
+        size = std::vector <int> (n,1);
+        parent = std::vector <int> (n);
+        for(int i=0;i<n;i++){
+            parent[i]=i;
+        }
+    }
 
-    if(x==y){
-        return;
+    int root(int x){
+
+        while(parent[x]!=x){
+        
+            parent[x]=parent[parent[x]];
+            x=parent[x];
+        }
+        return x;
     }
-    
-    x=root(x);
-    y=root(y);
-    
-    if(sizze[x]<sizze[y]){
-        sizze[y]+=sizze[x];
-        par[x]=y;
+
+    void uni(int x,int y){
+
+        if(x==y){
+            return;
+        }
+        
+        x=root(x);
+        y=root(y);
+        
+        if(size[x]<size[y]){
+            size[y]+=size[x];
+            parent[x]=y;
+        }
+        else{
+            size[x]+=size[y];
+            parent[y]=x;
+        }
     }
-    else{
-        sizze[x]+=sizze[y];
-        par[y]=x;
+};
+
+int main(){
+
+    cout<<"Testing DSU ...\n";
+    int dsu_size=6;
+    DSU dsu(dsu_size);
+    // check if size is 6
+    assert(dsu.size.size() == dsu.parent.size() and dsu.size.size()==dsu_size);
+    // check if the parent for every node is correct
+    for(int i=0;i<6;i++){
+        assert(dsu.root(i)==dsu.parent[i] and dsu.root(i)==i);
     }
+    dsu.uni(1,2);
+    dsu.uni(2,3);
+    dsu.uni(1,1);
+    // check if the union operation works fine
+    assert(dsu.root(1) == dsu.root(2) and dsu.root(1) == dsu.root(3));
+    assert(dsu.size[dsu.root(1)] == 3);
+
+    cout<<"Testing passed \n";
+    return 0;
 }
