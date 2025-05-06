@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#define int long long
+
 struct BIT{
 
     int max_size;
@@ -48,6 +50,6 @@ int main(){
     assert(bit.query(5)==2);
     assert(bit.query(6)==4);
     
-    cout<<"Testing passed !\n";
+    cout<<"Testing passed!\n";
     return 0;
 }

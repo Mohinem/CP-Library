@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+#define int long long
+
 struct DSU{
 
     std::vector <int> size;
@@ -44,7 +46,7 @@ struct DSU{
     }
 };
 
-int main(){
+signed main(){
 
     cout<<"Testing DSU ...\n";
     int dsu_size=6;
@@ -62,6 +64,5 @@ int main(){
     assert(dsu.root(1) == dsu.root(2) and dsu.root(1) == dsu.root(3));
     assert(dsu.size[dsu.root(1)] == 3);
 
-    cout<<"Testing passed \n";
-    return 0;
+    cout<<"Testing passed!\n";
 }
